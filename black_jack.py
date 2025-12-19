@@ -42,11 +42,11 @@ cards_player=[Give_card(),Give_card()]#متغير يستخدم في المرحل
 first_nambersR=evaluate_initial_hand(cards_robot)#قائمة أرقام  او رقم 12
 first_nambersP=evaluate_initial_hand(cards_player)#قائمة أرقام او رقم 12 
 
-first_nambersR=first_nambers_printR(first_nambersR,cards_robot)#مخصص للطباعة 
+for_nambersR=first_nambers_printR(first_nambersR,cards_robot)#مخصص للطباعة 
 for_nambersP=first_nambers_printP(first_nambersP,cards_player)#مخصص للطباعة 
 
 
-print(f"The robot has : [{cards_robot[0]},??] and is {first_nambersR}")
+print(f"The robot has : [{cards_robot[0]},??] and is {for_nambersR}")
 print(f"You  have : {cards_player} and is {for_nambersP}")
 #=================نهاية المرحلة الأولى و بداية مرحلة التقرير و السحب ==========
 #__________دوال مخصصة للمرحلة الثانية_______________
