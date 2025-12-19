@@ -12,7 +12,7 @@ def clear_screen():#تنظيف شاشة
 def evaluate_initial_hand(list_of_cards):#تمرر قائمة مكونة من بطاقتين 
    new_list=[]
    for x in list_of_cards:
-      new_card=10 if x in "QKJ"  else x  
+      new_card=10 if x in ["Q","K","J"]  else x  
       new_list.append(new_card)#["K" ,4]→[10,4] | "A"→"A"
    if "A" in new_list:
       if "A" == new_list[0] and "A" == new_list[1]:
@@ -32,11 +32,12 @@ def first_displayP(list_of_numbers,list_of_cards):
 def first_displayR(first_numbersR,cards_robot):
    if "A"in cards_robot:
       if cards_robot.index("A")==0:
-           return "11/1"
+           otput= "11/1"
       else:
-           return str("10" if cards_robot[0] in "QKJ"  else cards_robot[0] )
+           otput= str("10" if cards_robot[0] in ["Q","K","J"]  else cards_robot[0] )
    else: 
-      return str(first_numbersR[0])#مخرج دائما str 
+      otput= str(first_numbersR[0])#مخرج دائما str 
+   return  otput
       
 #__________دوال مخصصة للمرحلة الثانية_______________
 def second_displayR(list_of_cards,list_of_numbers):
