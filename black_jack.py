@@ -1,3 +1,4 @@
+#لا داعي لقول هذا لكن قراءة الكود يبدء من فهم المنطق و قراءة الأسطر التنفيذية انتقالا للدوال و فهم عملها 
 import random
 import  os
 #___________متغيرات و دوال أساسية ___________
@@ -36,7 +37,17 @@ def first_displayR(first_numbersR,cards_robot):
            return str("10" if cards_robot[0] in "QKJ"  else cards_robot[0] )
    else: 
       return str(first_numbersR[0])#مخرج دائما str 
-#==========================مرحلى أولى===========
+      
+#__________دوال مخصصة للمرحلة الثانية_______________
+def second_displayR(list_of_cards,list_of_numbers):
+     if "A" in list_of_cards:
+        otput=list_of_numbers[0]#[a,b]→a: أكبر رقم في قائمة الأرقام 
+     else:
+        otput=sum(list_of_numbers)#[g,h]→g+h
+     return str(otput)#int→str
+   
+   
+#==========================مرحلة أولى====================°°°°°°°°°°°°°°°
 cards_robot=[Give_card(),Give_card()]#متغير يستخدم  في المرحلة الثانية 
 cards_player=[Give_card(),Give_card()]#متغير يستخدم في المرحلة الثانية
 numbersR=evaluate_initial_hand(cards_robot)#قائمة أرقام  او رقم 12
@@ -48,15 +59,6 @@ for_desplay_numbersP=first_displayP(numbersP,cards_player)#مخصص للطباع
 
 print(f"The robot has : [{cards_robot[0]},??] and is {for_desplay_numbersR}")
 print(f"You  have : {cards_player} and is {for_desplay_numbersP}")
-#=================نهاية المرحلة الأولى و بداية مرحلة التقرير و السحب ==========
-#__________دوال مخصصة للمرحلة الثانية_______________
-def second_displayR(list_of_cards,list_of_numbers):
-     if "A" in list_of_cards:
-        otput=list_of_numbers[0]#[a,b]→a: أكبر رقم في قائمة الأرقام 
-     else:
-        otput=sum(list_of_numbers)#[g,h]→g+h
-     return str(otput)#int→str
-   
 #===============مرحلة ثانية=======================================
 if 21 in numbersP:
    clear_screen()
@@ -65,6 +67,7 @@ if 21 in numbersP:
    print(f"You  have : {cards_player} and is 21 ")
    results="You win"if int(second_numberR)!=21 else "Draw"
    print(results)
+#===============مرحلة ثالثة ======================================
 else :
    print()
    
