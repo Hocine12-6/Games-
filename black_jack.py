@@ -50,18 +50,20 @@ print(f"The robot has : [{cards_robot[0]},??] and is {for_nambersR}")
 print(f"You  have : {cards_player} and is {for_nambersP}")
 #=================نهاية المرحلة الأولى و بداية مرحلة التقرير و السحب ==========
 #__________دوال مخصصة للمرحلة الثانية_______________
-def secend_number_printR(list_of_cards,list_of_nambers):
+def robot_second_display(list_of_cards,list_of_nambers):
      if "A" in list_of_cards:
         otput=list_of_nambers[0]
      else:
         otput=sum(list_of_nambers)
-     return  otput
+     return str(otput)
    
 #===============مرحلة ثانية=======================================
 if 21 in first_nambersP:
    clear_screen()
-   second_namberR=secend_number_printR(cards_robot,first_nambersR)
+   second_namberR=robot_second_display(cards_robot,first_nambersR)
    print(f"The robot has : {cards_robot} and is {second_namberR}")
    print(f"You  have : {cards_player} and is 21 ")
+   results="You win"if int(second_namberR)!=21 else "Draw"
+   print(results)
 else :
    print()
