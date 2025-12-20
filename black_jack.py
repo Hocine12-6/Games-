@@ -50,7 +50,18 @@ def second_displayR(list_of_cards,list_of_numbers):
      return str(otput)#int→str
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
-
+def desplay_numbersP(list_of_cards):
+   new_list=[]
+   for card in list_of_cards:
+      card_update= 10 if card in TANS else card
+      new_list.append(card_update)
+   list_numbers=[]
+   for card2 in list_numbers:
+      if card2 != "A":
+         list_numbers.append(card2)
+   
+   else:#خطأ منطقي هنا ربما مطلوب تحقق 
+      new_list=sum(new_list)
 #==========================مرحلة أولى====================°°°°°°°°°°°°°°°
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
 cards_player=[Give_card(),Give_card()]#بطاقات اللاعب 
@@ -72,14 +83,8 @@ if 21 in numbersP:
    results="You win"if int(second_numberR)!=21 else "Draw"
    print(results)
 #===============مرحلة ثالثة ======================================
-def desplay_numbersP(list_of_cards):
-   new_list=[]
-   for card in list_of_cards:
-      card_update= 10 if card in TANS else card
-      new_list.append(card_update)
-      
 #==========مرحلة ثالثة = جزء أول====================================
-else :
+else:
    user_choice= input("Do you need ro hant or stop [h/s..]:").lower()== "h"#يحفظ bool
    if user_choice:#حالة قبول سحب 
 #ملاحظة مؤقتة تأتي البطاقات من الشطل الخام و المطلوب حسابها تكون من الشكل list فيها حروف و ارقام حسب الحالة او ارقام فقط 
