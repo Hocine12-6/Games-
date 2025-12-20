@@ -54,15 +54,18 @@ def second_displayR(list_of_cards,list_of_numbers):
 def desplay_numbersP(list_of_cards):
    otput=""
    new_list=[]
+   list_only_numbers=[]
    for card in list_of_cards:
       card_update= 10 if card in TANS else card
       new_list.append(card_update)
-   list_numbers=[]
    for card2 in new_list:
       if card2 != "A":
-         list_numbers.append(card2)
-   if sum(list_numbers)== 0:#كل البطاقاتت A
+         list_only_numbers.append(card2)
+   if sum(list_only_numbers)== 0:#كل البطاقاتت A
       otput=str(12+(len(new_list)-2))
+      #ملاحظة هناك حالتان باقيتان و هي الحصول على A و سابقا هناك A و الحصول على رقم و سابقا لدينا A و الحصول على رقم و سابقا لدينا ارقام فقط 
+      
+   return otput
    
 #==========================مرحلة أولى====================°°°°°°°°°°°°°°°
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
@@ -70,7 +73,7 @@ cards_player=[Give_card(),Give_card()]#بطاقات اللاعب
 numbersR=evaluate_initial_hand(cards_robot)#قائمة أرقام  او رقم 12
 numbersP=evaluate_initial_hand(cards_player)#قائمة أرقام او رقم 12 
 
-for_desplay_numbersR=first_displayR(numbersR,cards_robot)#مخصص للطباعة 
+for_desplay_numbersR=first_displayR(numbersR,cards_robot)#مخصص للطباعة +مجموع مرحلة ثالثة 
 for_desplay_numbersP=first_displayP(numbersP,cards_player)#مخصص للطباعة 
 
 
@@ -96,10 +99,3 @@ else:
       
    else:
       print("good it's work  ")
-      
-      
-      
-      
-      
-      
-      
