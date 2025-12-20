@@ -50,18 +50,20 @@ def second_displayR(list_of_cards,list_of_numbers):
      return str(otput)#int→str
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
+
 def desplay_numbersP(list_of_cards):
+   otput=""
    new_list=[]
    for card in list_of_cards:
       card_update= 10 if card in TANS else card
       new_list.append(card_update)
    list_numbers=[]
-   for card2 in list_numbers:
+   for card2 in new_list:
       if card2 != "A":
          list_numbers.append(card2)
+   if sum(list_numbers)== 0:#كل البطاقاتت A
+      otput=str(12+(len(new_list)-2))
    
-   else:#خطأ منطقي هنا ربما مطلوب تحقق 
-      new_list=sum(new_list)
 #==========================مرحلة أولى====================°°°°°°°°°°°°°°°
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
 cards_player=[Give_card(),Give_card()]#بطاقات اللاعب 
