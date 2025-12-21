@@ -50,7 +50,7 @@ def second_displayR(list_of_cards,list_of_numbers):
      return str(otput)#int→str
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
-def desplay_numbersP(list_of_cards,numbers_str):
+def display_numbersP(list_of_cards,numbers_str):
    resolution=True #في حالة انفجار مجموع اللاعب تصبح False
    otput=""#مخرج
    new_list=[]#قائمة تم تحويل قيم KJQ
@@ -92,8 +92,8 @@ def desplay_numbersP(list_of_cards,numbers_str):
    if "21" in otput:
       otput="21" #الاعب حصل على 21  
    return (otput,resolution)
-   
-#==========================مرحلة أولى====================°°°°°°°°°°°°°°°
+
+#==========================مرحلة أولى==================================
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
 cards_player=[Give_card(),Give_card()]#بطاقات اللاعب 
 numbersR=evaluate_initial_hand(cards_robot)#قائمة أرقام  او رقم 12
@@ -115,18 +115,19 @@ if 21 in numbersP:
    print(results)
 #===============مرحلة ثالثة ======================================
 #==========مرحلة ثالثة = جزء أول====================================
-else:#بقي متغيرات الإنفجار و تم انهاء الجزء 
+else:
     while repitation:
-      user_choice= input("Do you need ro hant or stop [h/s..]:").lower()== "h"#يحفظ bool
+      user_choice= input("Do you need to hant or stop [h/s..]:").lower()== "h"#يحفظ bool
       if not user_choice:#إذا لم يدخل h 
          repitation=False
+         explosion=False #انفحار اللاعب 
          continue
       if user_choice:#حالة قبول سحب 
         cards_player.append(Give_card())
-        info_and_repitition= desplay_numbersP(cards_player,number_for_desplayP)
+        info_and_repitition= display_numbersP(cards_player,number_for_desplayP)
         number_for_desplayP=info_and_repitition[0]
         print(f"You  have : {cards_player} and is {number_for_desplayP} ")
         repitation=info_and_repitition[1]
-     
+        explosion=repitation#انفجار اللاعب
       else:#حالة رفض السحب 
          print("good it's work  ")
