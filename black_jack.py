@@ -50,7 +50,6 @@ def second_displayR(list_of_cards,list_of_numbers):
      return str(otput)#int→str
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
-
 def desplay_numbersP(list_of_cards,numbers_str):
    resolution=False #في حالة انفجار مجموع اللاعب تصبح True 
    otput=""#مخرج
@@ -65,20 +64,30 @@ def desplay_numbersP(list_of_cards,numbers_str):
          
    if sum(list_only_numbers)== 0:#كل البطاقاتA
       otput=str(12+(len(new_list)-2))
-   elif "/" in numbers_str and new_list[-1]== "A":#كان A سابقا و لدينا A 
+   elif "/" in numbers_str and new_list[-1]== "A":#كان A سابقا أو لم يكن و لدينا A 
       smallest_value=int(numbers_str.split("/")[0])
       otput=str(smallest_value+1)
-   elif "/" in numbers_str:#كان A سابقا و حصلنا على بطاقة ثابتة 
+   elif "/" in numbers_str:#كان A سابقا او لم يكن وحصلنا على بطاقة ثابتة 
       large_namber=int(numbers_str.split("/")[0])#رقم أكبر]
-      smal_number=int(numbers_str.split("/")[1])
-      fixed_number=new_list[-1]
+      smal_number=int(numbers_str.split("/")[1])#رقم اصغر 
+      fixed_number=new_list[-1]#اخر بطاقة 
       if (large_namber+fixed_number)<=21:
          otput=str(large_namber+fixed_number)+"/"+str(smal_number+fixed_number)
       else:
          otput=str(smal_number+fixed_number)
-   elif "/" not in numbersR 
+   elif "/" not in numbers_str and new_list[-1]== "A" :#لا خيارات سابقا و حصلنا على A 
+      number1=int(numbers_str)+1
+      number2=int(numbers_str)+11 
+      if number2<=21:
+         otput=str(number1)+"/"+str(number2)
+      else:
+         otput=str(number1)
+   elif "/" not in numbers_str :#لا خيارات سابقا و حصلنا على رقم ثابت 
+     fixed_number=new_list[-1] 
+     otput= str(int(numbers_str)+fixed_number)
       
-      
+   if "21" in otput:
+      otput="21"  
    return (otput,resolution)
    
 #==========================مرحلة أولى====================°°°°°°°°°°°°°°°
@@ -110,6 +119,6 @@ else:
          cards_player.append(Give_card())
          number_for_desplayP=desplay_numbersP(cards_player,number_for_desplayP)
          print(f"You  have : {cards_player} and is {number_for_desplayP} ")
-      
+      #ايقاف اللوب في حالة القوز او انفجارالمجموع
       else:
          print("good it's work  ")
