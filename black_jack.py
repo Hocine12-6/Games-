@@ -51,7 +51,7 @@ def second_displayR(list_of_cards,list_of_numbers):
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
 def desplay_numbersP(list_of_cards,numbers_str):
-   resolution=False #في حالة انفجار مجموع اللاعب تصبح True 
+   resolution=True #في حالة انفجار مجموع اللاعب تصبح False
    otput=""#مخرج
    new_list=[]#قائمة تم تحويل قيم KJQ
    list_only_numbers=[]#قائمة تملك فقط ارقام 
@@ -85,9 +85,12 @@ def desplay_numbersP(list_of_cards,numbers_str):
    elif "/" not in numbers_str :#لا خيارات سابقا و حصلنا على رقم ثابت 
      fixed_number=new_list[-1] 
      otput= str(int(numbers_str)+fixed_number)
-      
+   
+   if int(otput.split("/")[-1]) > 21:
+      otput=str(int(otput.split("/")[-1]))
+      resolution=False #انفجرت القيم 
    if "21" in otput:
-      otput="21"  
+      otput="21" #الاعب حصل على 21  
    return (otput,resolution)
    
 #==========================مرحلة أولى====================°°°°°°°°°°°°°°°
@@ -99,7 +102,7 @@ numbersP=evaluate_initial_hand(cards_player)#قائمة أرقام او رقم 1
 for_desplay_numbersR1=first_displayR(numbersR,cards_robot)#مخصص للطباعة 
 for_desplay_numbersP1=first_displayP(numbersP,cards_player)#مخصص للطباعة +مجموع مرحلة ثالثة جزء 1 
 number_for_desplayP=for_desplay_numbersP1#تهيئة للمرحلة الثالثة جزء1 
-
+repitation=True#تهيئة للوب المرحلة الثالثة الجزء 1 
 print(f"The robot has : [{cards_robot[0]},??] and is {for_desplay_numbersR1}")
 print(f"You  have : {cards_player} and is {for_desplay_numbersP1}")
 #===============مرحلة ثانية=======================================
@@ -108,17 +111,22 @@ if 21 in numbersP:
    second_numberR=second_displayR(cards_robot,numbersR)
    print(f"The robot has : {cards_robot} and is {second_numberR}")
    print(f"You  have : {cards_player} and is 21 ")
-   results="You win"if int(second_numberR)!=21 else "Draw"
+   results="You win"if int(second_numberR)!=21 else "Draw"#نتيجة مباراة
    print(results)
 #===============مرحلة ثالثة ======================================
 #==========مرحلة ثالثة = جزء أول====================================
-else:
+else:#بقي متغيرات الإنفجار و تم انهاء الجزء 
+    while repitation:
       user_choice= input("Do you need ro hant or stop [h/s..]:").lower()== "h"#يحفظ bool
+      if not user_choice:#إذا لم يدخل h 
+         repitation=False
+         continue
       if user_choice:#حالة قبول سحب 
-#ملاحظة مؤقتة تأتي البطاقات من الشطل الخام و المطلوب حسابها تكون من الشكل list فيها حروف و ارقام حسب الحالة او ارقام فقط 
-         cards_player.append(Give_card())
-         number_for_desplayP=desplay_numbersP(cards_player,number_for_desplayP)
-         print(f"You  have : {cards_player} and is {number_for_desplayP} ")
-      #ايقاف اللوب في حالة القوز او انفجارالمجموع
-      else:
+        cards_player.append(Give_card())
+        info_and_repitition= desplay_numbersP(cards_player,number_for_desplayP)
+        number_for_desplayP=info_and_repitition[0]
+        print(f"You  have : {cards_player} and is {number_for_desplayP} ")
+        repitation=info_and_repitition[1]
+     
+      else:#حالة رفض السحب 
          print("good it's work  ")
