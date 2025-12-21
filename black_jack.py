@@ -51,21 +51,35 @@ def second_displayR(list_of_cards,list_of_numbers):
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
 
-def desplay_numbersP(list_of_cards):
-   otput=""
-   new_list=[]
-   list_only_numbers=[]
-   for card in list_of_cards:
+def desplay_numbersP(list_of_cards,numbers_str):
+   resolution=False #في حالة انفجار مجموع اللاعب تصبح True 
+   otput=""#مخرج
+   new_list=[]#قائمة تم تحويل قيم KJQ
+   list_only_numbers=[]#قائمة تملك فقط ارقام 
+   for card in list_of_cards:#تحول KJQ الى 10 من نوع int 
       card_update= 10 if card in TANS else card
       new_list.append(card_update)
-   for card2 in new_list:
+   for card2 in new_list:#تختار فقط ارقام للقائمة المستهدفة 
       if card2 != "A":
          list_only_numbers.append(card2)
-   if sum(list_only_numbers)== 0:#كل البطاقاتت A
+         
+   if sum(list_only_numbers)== 0:#كل البطاقاتA
       otput=str(12+(len(new_list)-2))
-      #ملاحظة هناك حالتان باقيتان و هي الحصول على A و سابقا هناك A و الحصول على رقم و سابقا لدينا A و الحصول على رقم و سابقا لدينا ارقام فقط 
+   elif "/" in numbers_str and new_list[-1]== "A":#كان A سابقا و لدينا A 
+      smallest_value=int(numbers_str.split("/")[0])
+      otput=str(smallest_value+1)
+   elif "/" in numbers_str:#كان A سابقا و حصلنا على بطاقة ثابتة 
+      large_namber=int(numbers_str.split("/")[0])#رقم أكبر]
+      smal_number=int(numbers_str.split("/")[1])
+      fixed_number=new_list[-1]
+      if (large_namber+fixed_number)<=21:
+         otput=str(large_namber+fixed_number)+"/"+str(smal_number+fixed_number)
+      else:
+         otput=str(smal_number+fixed_number)
+   elif "/" not in numbersR 
       
-   return otput
+      
+   return (otput,resolution)
    
 #==========================مرحلة أولى====================°°°°°°°°°°°°°°°
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
@@ -73,12 +87,12 @@ cards_player=[Give_card(),Give_card()]#بطاقات اللاعب
 numbersR=evaluate_initial_hand(cards_robot)#قائمة أرقام  او رقم 12
 numbersP=evaluate_initial_hand(cards_player)#قائمة أرقام او رقم 12 
 
-for_desplay_numbersR=first_displayR(numbersR,cards_robot)#مخصص للطباعة +مجموع مرحلة ثالثة 
-for_desplay_numbersP=first_displayP(numbersP,cards_player)#مخصص للطباعة 
+for_desplay_numbersR1=first_displayR(numbersR,cards_robot)#مخصص للطباعة 
+for_desplay_numbersP1=first_displayP(numbersP,cards_player)#مخصص للطباعة +مجموع مرحلة ثالثة جزء 1 
+number_for_desplayP=for_desplay_numbersP1#تهيئة للمرحلة الثالثة جزء1 
 
-
-print(f"The robot has : [{cards_robot[0]},??] and is {for_desplay_numbersR}")
-print(f"You  have : {cards_player} and is {for_desplay_numbersP}")
+print(f"The robot has : [{cards_robot[0]},??] and is {for_desplay_numbersR1}")
+print(f"You  have : {cards_player} and is {for_desplay_numbersP1}")
 #===============مرحلة ثانية=======================================
 if 21 in numbersP:
    clear_screen()
@@ -90,12 +104,12 @@ if 21 in numbersP:
 #===============مرحلة ثالثة ======================================
 #==========مرحلة ثالثة = جزء أول====================================
 else:
-   user_choice= input("Do you need ro hant or stop [h/s..]:").lower()== "h"#يحفظ bool
-   if user_choice:#حالة قبول سحب 
+      user_choice= input("Do you need ro hant or stop [h/s..]:").lower()== "h"#يحفظ bool
+      if user_choice:#حالة قبول سحب 
 #ملاحظة مؤقتة تأتي البطاقات من الشطل الخام و المطلوب حسابها تكون من الشكل list فيها حروف و ارقام حسب الحالة او ارقام فقط 
-      cards_player.append(Give_card())
-      number_for_desplayP=0
-      print(f"You  have : {cards_player} and is عدد ")
+         cards_player.append(Give_card())
+         number_for_desplayP=desplay_numbersP(cards_player,number_for_desplayP)
+         print(f"You  have : {cards_player} and is {number_for_desplayP} ")
       
-   else:
-      print("good it's work  ")
+      else:
+         print("good it's work  ")
