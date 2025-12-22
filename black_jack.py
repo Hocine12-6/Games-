@@ -1,4 +1,6 @@
-#اكبر يسار أصغر يمين
+#ملاحظات :
+   #ارقام العرض تعتبر أرقام المجموع 
+    #اكبر يسار أصغر يمين
 import random
 import  os
 #___________متغيرات و دوال أساسية ___________
@@ -11,7 +13,7 @@ def Give_card():#سحب بطاقة
 def clear_screen():#تنظيف شاشة 
    os.system("clear")
 #___________دوال مرحلة اولى____________________________________
-def evaluate_initial_hand(list_of_cards):#تمرر قائمة مكونة من بطاقتين 
+def two_card_numbers(list_of_cards):#تمرر قائمة مكونة من بطاقتين 
    new_list=[]
    for x in list_of_cards:
       new_card=10 if x in TANS  else x  
@@ -23,15 +25,15 @@ def evaluate_initial_hand(list_of_cards):#تمرر قائمة مكونة من ب
          new_list=[new_list[1]+11,new_list[1]+1]#["A",1]→[12,2]
       else: 
          new_list=[new_list[0]+11,new_list[0]+1]#[1,"A"]→[12,2]
-   return  new_list
+   return  new_list #تعيد قائمة أرقام 
 #----
-def first_displayP(list_of_numbers,list_of_cards):
+def display_for2card(list_of_numbers,list_of_cards):#@
    if "A" in list_of_cards and len(list_of_numbers)>1:
         return str(list_of_numbers[0])+"/"+str(list_of_numbers[1])
    else:
       return str(sum(list_of_numbers))#مخرج دائما str 
 #----
-def first_displayR(first_numbersR,cards_robot):
+def first_display_numbersR(first_numbersR,cards_robot):
    if "A"in cards_robot:
       if cards_robot.index("A")==0:
            otput= "11/1"
@@ -39,10 +41,10 @@ def first_displayR(first_numbersR,cards_robot):
            otput= str("10" if cards_robot[0] in TANS  else cards_robot[0] )
    else: 
       otput= str(first_numbersR[0])#مخرج دائما str 
-   return  otput
+   return  otput #تعيد قيمة اول بطاقة فحسب 
       
 #__________دوال مخصصة للمرحلة الثانية_______________
-def second_displayR(list_of_cards,list_of_numbers):
+def second_displayR(list_of_cards,list_of_numbers):#حالة حسم يد من بطاقتين 
      if "A" in list_of_cards:
         otput=list_of_numbers[0]#[a,b]→a: أكبر رقم في قائمة الأرقام 
      else:
@@ -100,19 +102,18 @@ def display_numbersP(list_of_cards,numbers_str):
 #==========================مرحلة أولى==================================
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
 cards_player=[Give_card(),Give_card()]#بطاقات اللاعب 
-numbersR=evaluate_initial_hand(cards_robot)#قائمة أرقام  او رقم 12
-numbersP=evaluate_initial_hand(cards_player)#قائمة أرقام او رقم 12 
+numbers_first2cardR=two_card_numbers(cards_robot) 
+numbers_first2cardP=two_card_numbers(cards_player) 
 
-for_desplay_numbersR1=first_displayR(numbersR,cards_robot)#مخصص للطباعة 
-for_desplay_numbersP1=first_displayP(numbersP,cards_player)#مخصص للطباعة +مجموع مرحلة ثالثة جزء 1 
-number_for_desplayP2=for_desplay_numbersP1#تهيئة للمرحلة الثالثة جزء1 
-repitation=True#تهيئة للوب المرحلة الثالثة الجزء 1 
+for_desplay_numbersR1=first_display_numbersR(numbers_first2cardR,cards_robot)
+for_desplay_numbersP1=display_for2card(numbers_first2cardP,cards_player)
+
 print(f"The robot has : [{cards_robot[0]},??] and is {for_desplay_numbersR1}")
 print(f"You  have : {cards_player} and is {for_desplay_numbersP1}")
 #===============مرحلة ثانية=======================================
-if 21 in numbersP:
+if 21 in numbers_first2cardP:
    clear_screen()
-   second_numberR=second_displayR(cards_robot,numbersR)
+   second_numberR=second_displayR(cards_robot,numbers_first2cardR)
    print(f"The robot has : {cards_robot} and is {second_numberR}")
    print(f"You  have : {cards_player} and is 21 ")
    results="You win"if int(second_numberR)!=21 else "Draw"#نتيجة مباراة
@@ -120,6 +121,10 @@ if 21 in numbersP:
 #===============مرحلة ثالثة ======================================
 #==========مرحلة ثالثة = جزء أول====================================
 else:
+    number_for_desplayP2=for_desplay_numbersP1
+    repitation=True 
+    repitation2=True
+    
     while repitation:
       user_choice= input("Do you need to hant or stop [h/s..]:").lower()== "h"#يحفظ bool
       if not user_choice:#إذا لم يدخل h 
@@ -135,11 +140,18 @@ else:
         explosion= not repitation#تقرير انفجار اللاعب
         if "21" == info_and_repitition[0]:
           break
+
 #==========مرحلة ثالثة = جزء ثاني====================================
  #سحب الكمبيوتر 
+    
+    if "21" == number_for_desplayP2:
+       print("it's 21")
+    elif explosion:
+       print("it's bomb") 
+    else:
+       print("it's normal")
  #لا يمكنه السحب فور تخطي او وصول ل 17 
  #أي بعد كل سحب نحسب مجموع ما يملكه 
       
        #جزء تقرير الفائز و الخاسر . 
        #طباعة المجاميع و البطاقات  عند الكل 
-       #طباعة الحالة {فوز.خسارة.تعادل}
