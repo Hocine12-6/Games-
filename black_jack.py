@@ -82,7 +82,7 @@ def display_numbersP(list_of_cards,numbers_str):
    elif "/" not in numbers_str and new_list[-1]== "A" :#لا خيارات سابقا و حصلنا على A 
       large_namber=int(numbers_str)+11#أكبر رقم 
       smal_number=int(numbers_str)+1 # أصغر رقم 
-      if large_namber<=21:
+      if large_namber<=21:#لم ينفجر 
          otput=str(large_namber)+"/"+str(smal_number) #أكبر يسار أصغر يمين 
       else:
          otput=str(smal_number)
@@ -90,10 +90,10 @@ def display_numbersP(list_of_cards,numbers_str):
      fixed_number=new_list[-1] 
      otput= str(int(numbers_str)+fixed_number)
    
-   if int(otput.split("/")[-1]) > 21:
+   if int(otput.split("/")[-1]) > 21:#إذا انفجرت القيم 
       otput=str(int(otput.split("/")[-1]))
       control_loop=False #انفجرت القيم تعيد False 
-   if "21" in otput:
+   elif  "21" in otput:
       otput="21" #الاعب حصل على 21  
    return (otput,control_loop)
 #______________دوال مخصصة للمرحلة الثالثة الجزء الثاني__________
@@ -133,13 +133,13 @@ else:
         print(f"You  have : {cards_player} and is {number_for_desplayP2} ")
         repitation=info_and_repitition[1]
         explosion= not repitation#تقرير انفجار اللاعب
+        if "21" == info_and_repitition[0]:
+          break
 #==========مرحلة ثالثة = جزء ثاني====================================
-      else:#حالة رفض السحب 
-         print("good it's work  ")
+ #سحب الكمبيوتر 
+ #لا يمكنه السحب فور تخطي او وصول ل 17 
+ #أي بعد كل سحب نحسب مجموع ما يملكه 
       
-      #جزء تقرير الفائز و الخاسر .
-      
-      
-      
-      
-    
+       #جزء تقرير الفائز و الخاسر . 
+       #طباعة المجاميع و البطاقات  عند الكل 
+       #طباعة الحالة {فوز.خسارة.تعادل}
