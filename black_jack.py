@@ -1,4 +1,4 @@
-#لا داعي لقول هذا لكن قراءة الكود يبدء من فهم المنطق و قراءة الأسطر التنفيذية انتقالا للدوال و فهم عملها 
+#اكبر يسار أصغر يمين
 import random
 import  os
 #___________متغيرات و دوال أساسية ___________
@@ -51,7 +51,7 @@ def second_displayR(list_of_cards,list_of_numbers):
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
 def display_numbersP(list_of_cards,numbers_str):
-   resolution=True #في حالة انفجار مجموع اللاعب تصبح False
+   control_loop=True #في حالة انفجار مجموع اللاعب تصبح False
    otput=""#مخرج
    new_list=[]#قائمة تم تحويل قيم KJQ
    list_only_numbers=[]#قائمة تملك فقط ارقام 
@@ -65,8 +65,12 @@ def display_numbersP(list_of_cards,numbers_str):
    if sum(list_only_numbers)== 0:#كل البطاقاتA
       otput=str(12+(len(new_list)-2))
    elif "/" in numbers_str and new_list[-1]== "A":#كان A سابقا أو لم يكن و لدينا A 
-      smallest_value=int(numbers_str.split("/")[0])
-      otput=str(smallest_value+1)
+      smal_number=int(numbers_str.split("/")[-1])
+      large_number=int(numbers_str.split("/")[0])
+      if large_number+11 >21 and large_number+1  <= 21:
+         otput =str(large_number+1) +"/"+str(smal_number+1)
+      elif large_number+11 <= 21:
+         otput= str(large_number+11)+"/"+str(smal_number+11)
    elif "/" in numbers_str:#كان A سابقا او لم يكن وحصلنا على بطاقة ثابتة 
       large_namber=int(numbers_str.split("/")[0])#رقم أكبر]
       smal_number=int(numbers_str.split("/")[1])#رقم اصغر 
@@ -76,23 +80,23 @@ def display_numbersP(list_of_cards,numbers_str):
       else:
          otput=str(smal_number+fixed_number)
    elif "/" not in numbers_str and new_list[-1]== "A" :#لا خيارات سابقا و حصلنا على A 
-      number1=int(numbers_str)+1
-      number2=int(numbers_str)+11 
-      if number2<=21:
-         otput=str(number1)+"/"+str(number2)
+      large_namber=int(numbers_str)+11#أكبر رقم 
+      smal_number=int(numbers_str)+1 # أصغر رقم 
+      if large_namber<=21:
+         otput=str(large_namber)+"/"+str(smal_number) #أكبر يسار أصغر يمين 
       else:
-         otput=str(number1)
+         otput=str(smal_number)
    elif "/" not in numbers_str :#لا خيارات سابقا و حصلنا على رقم ثابت 
      fixed_number=new_list[-1] 
      otput= str(int(numbers_str)+fixed_number)
    
    if int(otput.split("/")[-1]) > 21:
       otput=str(int(otput.split("/")[-1]))
-      resolution=False #انفجرت القيم 
+      control_loop=False #انفجرت القيم تعيد False 
    if "21" in otput:
       otput="21" #الاعب حصل على 21  
-   return (otput,resolution)
-
+   return (otput,control_loop)
+#______________دوال مخصصة للمرحلة الثالثة الجزء الثاني__________
 #==========================مرحلة أولى==================================
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
 cards_player=[Give_card(),Give_card()]#بطاقات اللاعب 
@@ -101,7 +105,7 @@ numbersP=evaluate_initial_hand(cards_player)#قائمة أرقام او رقم 1
 
 for_desplay_numbersR1=first_displayR(numbersR,cards_robot)#مخصص للطباعة 
 for_desplay_numbersP1=first_displayP(numbersP,cards_player)#مخصص للطباعة +مجموع مرحلة ثالثة جزء 1 
-number_for_desplayP=for_desplay_numbersP1#تهيئة للمرحلة الثالثة جزء1 
+number_for_desplayP2=for_desplay_numbersP1#تهيئة للمرحلة الثالثة جزء1 
 repitation=True#تهيئة للوب المرحلة الثالثة الجزء 1 
 print(f"The robot has : [{cards_robot[0]},??] and is {for_desplay_numbersR1}")
 print(f"You  have : {cards_player} and is {for_desplay_numbersP1}")
@@ -119,15 +123,23 @@ else:
     while repitation:
       user_choice= input("Do you need to hant or stop [h/s..]:").lower()== "h"#يحفظ bool
       if not user_choice:#إذا لم يدخل h 
-         repitation=False
-         explosion=False #انفحار اللاعب 
+         repitation=False #ايقاف اللوب 
+         explosion=False #عدم انفجار اللاعب  
          continue
       if user_choice:#حالة قبول سحب 
         cards_player.append(Give_card())
-        info_and_repitition= display_numbersP(cards_player,number_for_desplayP)
-        number_for_desplayP=info_and_repitition[0]
-        print(f"You  have : {cards_player} and is {number_for_desplayP} ")
+        info_and_repitition= display_numbersP(cards_player,number_for_desplayP2)
+        number_for_desplayP2=info_and_repitition[0]
+        print(f"You  have : {cards_player} and is {number_for_desplayP2} ")
         repitation=info_and_repitition[1]
-        explosion=repitation#انفجار اللاعب
+        explosion= not repitation#تقرير انفجار اللاعب
+#==========مرحلة ثالثة = جزء ثاني====================================
       else:#حالة رفض السحب 
          print("good it's work  ")
+      
+      #جزء تقرير الفائز و الخاسر .
+      
+      
+      
+      
+    
