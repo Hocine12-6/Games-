@@ -4,7 +4,7 @@
 import random
 import  os
 #___________متغيرات و دوال أساسية ___________
-CARDS=[2,3,4,5,6,7,8,9,10,"A","Q","J","K"]
+CARDS= [2,3,4,5,6,7,8,9,10,"A","Q","J","K"]*4
 TANS=["Q","K","J"]
 #====دوال=========
 def Give_card():#سحب بطاقة
@@ -52,7 +52,7 @@ def second_displayR(list_of_cards,list_of_numbers):#حالة حسم يد من ب
      return str(otput)#int→str
    
 #______________دوال مخصصة للمرحلة الثالثة الجزء الأول __________
-def display_numbersP(list_of_cards,numbers_str):
+def after_total2card(list_of_cards,numbers_str):
    control_loop=True #في حالة انفجار مجموع اللاعب تصبح False
    otput=""#مخرج
    new_list=[]#قائمة تم تحويل قيم KJQ
@@ -99,6 +99,7 @@ def display_numbersP(list_of_cards,numbers_str):
       otput="21" #الاعب حصل على 21  
    return (otput,control_loop)
 #______________دوال مخصصة للمرحلة الثالثة الجزء الثاني__________
+#إعادة إستخدام للدوال السابقة 
 #==========================مرحلة أولى==================================
 cards_robot=[Give_card(),Give_card()]#بطاقات الروبوت 
 cards_player=[Give_card(),Give_card()]#بطاقات اللاعب 
@@ -118,7 +119,6 @@ if 21 in numbers_first2cardP:
    print(f"You  have : {cards_player} and is 21 ")
    results="You win"if int(second_numberR)!=21 else "Draw"#نتيجة مباراة
    print(results)
-#===============مرحلة ثالثة ======================================
 #==========مرحلة ثالثة = جزء أول====================================
 else:
     number_str_P2=for_desplay_numbersP1
@@ -133,7 +133,7 @@ else:
          continue
       else:#حالة قبول سحب (إدخال h)
         cards_player.append(Give_card())
-        info_and_repitition= display_numbersP(cards_player,number_str_P2)
+        info_and_repitition= after_total2card(cards_player,number_str_P2)
         number_str_P2=info_and_repitition[0]
         print(f"You  have : {cards_player} and is {number_str_P2} ")
         repitation=info_and_repitition[1]
@@ -152,8 +152,30 @@ else:
     else:#حالة عادية أي لم يحصل 21 و لم تنفجر قيمه و لكن أوقف السحب يدويا 
        final_total_numbersP=number_str_P2
        final_total_numbersR=display_for2card(numbers_first2cardR,cards_robot)
- #لا يمكنه السحب فور تخطي او وصول ل 17 
- #أي بعد كل سحب نحسب مجموع ما يملكه 
-      
-       #جزء تقرير الفائز و الخاسر . 
-       #طباعة المجاميع و البطاقات  عند الكل 
+       while True :
+          cards_robot.append(Give_card())
+          info_and_explosion=after_total2card(cards_robot,final_total_numbersR)
+          final_total_numbersR=info_and_explosion[0]
+          explosionR=not info_and_explosion[-1]
+          if int(final_total_numbersR.split("/")[-1]) >=17 :
+             break
+#==================مرحلة رابعة =======================================
+
+    final_total_numbersP=final_total_numbersP.split("/")[0]
+    final_total_numbersR=final_total_numbersR.split("/")[0]
+    clear_screen()
+    print(f"The robot : {cards_robot} and is {final_total_numbersR}")
+    print(f"You have : {cards_player} and is {final_total_numbersP}")
+    if explosionP and explosionR:#إنفجار كلا من اللاعب و الروبوت 
+       print("Draw")
+    elif explosionP:#انفحار اللاعب فقك 
+       print("The robot win")
+    elif explosionR:#إنفجار الروبوت فقط 
+       print("You win")
+    else:#حالة عادية
+       if final_total_numbersP==final_total_numbersR:#إذا كانت القيم متادساوية 
+          print("Draw")
+       elif int(final_total_numbersP)>int(final_total_numbersR):#إذا كانت قيم اللاعب أكبر 
+          print("You win")
+       else:#إذا كانت قيم الروبوت أكبر
+          print("The robot win")
