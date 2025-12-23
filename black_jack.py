@@ -121,35 +121,37 @@ if 21 in numbers_first2cardP:
 #===============مرحلة ثالثة ======================================
 #==========مرحلة ثالثة = جزء أول====================================
 else:
-    number_for_desplayP2=for_desplay_numbersP1
+    number_str_P2=for_desplay_numbersP1
     repitation=True 
     repitation2=True
     
     while repitation:
-      user_choice= input("Do you need to hant or stop [h/s..]:").lower()== "h"#يحفظ bool
-      if not user_choice:#إذا لم يدخل h 
+      stop= input("Do you need to hant or stop [h/s..]:").lower()!= "h"#يحفظ bool
+      if stop:#إذا لم يدخل h 
          repitation=False #ايقاف اللوب 
-         explosion=False #عدم انفجار اللاعب  
+         explosionP=False #عدم انفجار اللاعب  
          continue
-      if user_choice:#حالة قبول سحب 
+      else:#حالة قبول سحب (إدخال h)
         cards_player.append(Give_card())
-        info_and_repitition= display_numbersP(cards_player,number_for_desplayP2)
-        number_for_desplayP2=info_and_repitition[0]
-        print(f"You  have : {cards_player} and is {number_for_desplayP2} ")
+        info_and_repitition= display_numbersP(cards_player,number_str_P2)
+        number_str_P2=info_and_repitition[0]
+        print(f"You  have : {cards_player} and is {number_str_P2} ")
         repitation=info_and_repitition[1]
-        explosion= not repitation#تقرير انفجار اللاعب
+        explosionP= not repitation#تقرير انفجار اللاعب
         if "21" == info_and_repitition[0]:
           break
 
 #==========مرحلة ثالثة = جزء ثاني====================================
- #سحب الكمبيوتر 
-    
-    if "21" == number_for_desplayP2:
-       print("it's 21")
-    elif explosion:
-       print("it's bomb") 
-    else:
-       print("it's normal")
+    if "21" == number_str_P2:#حصول اللاعب على 21
+       final_total_numbersP="21"
+       final_total_numbersR=display_for2card(numbers_first2cardR,cards_robot).split("/")[0]
+ 
+    elif explosionP:#إنفجار قيم اللاعب 
+       final_total_numbersR=display_for2card(numbers_first2cardR,cards_robot).split("/")[0]
+       
+    else:#حالة عادية أي لم يحصل 21 و لم تنفجر قيمه و لكن أوقف السحب يدويا 
+       final_total_numbersP=number_str_P2
+       final_total_numbersR=display_for2card(numbers_first2cardR,cards_robot)
  #لا يمكنه السحب فور تخطي او وصول ل 17 
  #أي بعد كل سحب نحسب مجموع ما يملكه 
       
