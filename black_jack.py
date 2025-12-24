@@ -11,7 +11,10 @@ def Give_card():#سحب بطاقة
    return  random.choice(CARDS)
 #----
 def clear_screen():#تنظيف شاشة 
-   os.system("clear")
+   os.system("cls" if os.name== "nt" else "clear")
+#_____متغيرات هامة_________________
+explosionP=False 
+explosionR=False
 #___________دوال مرحلة اولى____________________________________
 def two_card_numbers(list_of_cards):#تمرر قائمة مكونة من بطاقتين 
    new_list=[]
@@ -135,22 +138,21 @@ else:
         cards_player.append(Give_card())
         info_and_repitition= after_total2card(cards_player,number_str_P2)
         number_str_P2=info_and_repitition[0]
+        final_total_numbersP=number_str_P2
         print(f"You  have : {cards_player} and is {number_str_P2} ")
         repitation=info_and_repitition[1]
         explosionP= not repitation#تقرير انفجار اللاعب
-        if "21" == info_and_repitition[0]:
+        if "21" == number_str_P2 :
           break
 
 #==========مرحلة ثالثة = جزء ثاني====================================
     if "21" == number_str_P2:#حصول اللاعب على 21
-       final_total_numbersP="21"
        final_total_numbersR=display_for2card(numbers_first2cardR,cards_robot).split("/")[0]
  
     elif explosionP:#إنفجار قيم اللاعب 
        final_total_numbersR=display_for2card(numbers_first2cardR,cards_robot).split("/")[0]
        
     else:#حالة عادية أي لم يحصل 21 و لم تنفجر قيمه و لكن أوقف السحب يدويا 
-       final_total_numbersP=number_str_P2
        final_total_numbersR=display_for2card(numbers_first2cardR,cards_robot)
        while True :
           cards_robot.append(Give_card())
@@ -179,3 +181,4 @@ else:
           print("You win")
        else:#إذا كانت قيم الروبوت أكبر
           print("The robot win")
+          
