@@ -125,6 +125,7 @@ if 21 in numbers_first2cardP:
 #==========مرحلة ثالثة = جزء أول====================================
 else:
     number_str_P2=for_desplay_numbersP1
+    final_total_numbersP=number_str_P2.split("/")[0]
     repitation=True 
     repitation2=True
     
