@@ -35,31 +35,49 @@ def help_extintion():
      else:
         print(f"{Color.RED}input error \n<<{number_for_help}>> is not a number{Color.END}")
             
-def change_limits_extantion(target_str , now):#دالة تغيير قيمة محددة 
+def change_limits_extantion(target_str , now_limit_start,now_limit_end):#دالة تغيير قيمة محددة 
    """تستعمل لتغيير الأرقام العشوائية التي ستختار"""
-   new_limit=0
-   clear_screen()
-   while True :
-      print("----الحدود هي أعلى قيمة يمكن أن تظهر للمستخدم في العملية--- ")
-      print(f"  الحد {1 if target_str == 'x' else 2}")
-      print(f"Æ= {now}")
-      print("",("Æ x Y = " if target_str=="x" else "X x Æ  =")+"####")
-      new_limit=input("-يرجى إدخال الحد الجديد ليوضع مكان Æ:")
-      if not new_limit.isdigit():
-         print(f"{Color.RED} يبدو أن مدخلك غير صحيح {Color.END}")
-         continue
-      else:
-         break
-   clear_screen()
-   new_limit=int(new_limit)   
-   if new_limit in [0,1]:
-      new_limit=2
-      print("Æ")
-      print("  تم تحديد الحد تلقائيا على أنه2")
-   else:
-      print(f"تم تحديد الحد الجديد على أنه {new_limit}")
+   limits={"new_limit_start":now_limit_start,
+   "new_limit_end":now_limit_end}
+   
+   print("----الحدود هي القيم التي يمكن أن تظهر للمستخدم في العملية--- ")
+   print("____________")
+   print(f"{now_limit_start}→..→ {now_limit_end}")
+   print("Æ1→..→ Æ2")
+   print("____________")
+   print("",("Æ x Y = " if target_str=="x" else "X x Æ  =")+"####")
+   
+   for limit in limits.keys():        
+        while True :
+             new_limit=input(f"-يرجى إدخال الحد الجديد ليوضع مكان {limits[limit]}:")
+             if not new_limit.isdigit():
+                print(f"{Color.RED} يبدو أن مدخلك غير صحيح {Color.END}")
+                continue
+             else:
+                limits[limit]=int(new_limit)
+             if limits[limit] in [0,1]:
+                  limits[limit]=2
+                  print("  تم تحديد الحد تلقائيا على أنه2")
+                  print("يا صاح من يضع 0 أو 1 ليتدرب عليها؟")
+             else:
+                 print(f"تم تحديد الحد الجديد على أنه {new_limit}")
+             break
+
    input("إضغط على انتر للمتابعة...")
-   return  new_limit
+   new_limit_start=limits["new_limit_start"]
+   new_limit_end=limits["new_limit_end"]
+   if new_limit_start ==new_limit_end:
+      new_limit_end=new_limit_end+2
+      print(f"قيم بداية و نهاية متساوية تم تحديد اخر قيمة {new_limit_end}")
+   elif new_limit_end<new_limit_start:
+      number_start=new_limit_start
+      number_end=new_limit_end
+      new_limit_start=number_end
+      new_limit_end=number_start
+      print("قيم البداية أكبر من قيم النهاية ")
+      print("تم تغيير البداية و النهاية")
+   return  new_limit_start,new_limit_end
+
    
 class Color:
     PURPLE = '\033[95m'
@@ -75,10 +93,11 @@ class Color:
     INVERT="\033[7m"
 
 def main():
-    limit_x=5
-    limit_y=10
     start_x=0
     start_y=0
+    limit_x=5
+    limit_y=10
+
     while True:
         x = random.randint(start_x, limit_x)
         y = random.randint(start_y, limit_y)
@@ -114,9 +133,13 @@ def main():
              continue
 
         elif answer == "limits":#تغيير الحدود 
-           
-           limit_x=change_limits_extantion("x",limit_x)
-           limit_y=change_limits_extantion("y",limit_y)
+           clear_screen()
+           change_x=change_limits_extantion("x",start_x,limit_x)
+           change_y=change_limits_extantion("y",start_y,limit_y)
+           start_x=change_x[0]
+           limit_x=change_x[1]
+           start_y=change_y[0]
+           limit_y=change_y[1]
            clear_screen()
         else:
             correct_operition = f'{x}x{y} = {x*y}'
